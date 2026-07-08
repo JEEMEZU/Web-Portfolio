@@ -487,7 +487,7 @@ function SkillBar({ name, level, color, delay }: { name: string; level: number; 
 function SkillsSection() {
   return (
     <section id="skills" style={{ background: '#0b0a1a', padding: '60px 6vw', borderTop: '1px solid rgba(139,92,246,0.08)' }}>
-      <div style={{ maxWidth: '1100px', margin: '0 auto' }}>
+      <div style={{ maxWidth: '1280px', margin: '0 auto' }}>
         <p className="reveal" style={{ fontSize: '9px', fontFamily: "var(--font-page-display), sans-serif", color: '#7c3aed', letterSpacing: '0.22em', marginBottom: '6px' }}>02 — Skills</p>
         <h2 className="reveal" style={{ fontFamily: "var(--font-page-orbitron), sans-serif", fontSize: 'clamp(26px, 3vw, 40px)', fontWeight: 700, letterSpacing: '0.01em', color: '#f0eeff', marginBottom: '10px' }}>
           Tech{' '}<span style={{ background: 'linear-gradient(135deg, #a78bfa, #22d3ee)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>Proficiency</span>
@@ -495,7 +495,7 @@ function SkillsSection() {
         <p className="reveal" style={{ fontSize: '11px', fontFamily: "'Barlow', sans-serif", color: '#5a4e80', maxWidth: '480px', lineHeight: 1.8, marginBottom: '40px' }}>
           Not just a list — here&apos;s an honest breakdown of where I actually stand with each stack.
         </p>
-        <div className="reveal" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '24px' }}>
+        <div className="reveal skills-grid" style={{ display: 'grid', gridTemplateColumns: 'repeat(3, 1fr)', gap: '24px' }}>
           {SKILL_GROUPS.map(group => (
             <div key={group.label} style={{ background: '#08071a', border: '1px solid rgba(139,92,246,0.12)', borderRadius: '16px', padding: '24px', position: 'relative', overflow: 'hidden' }}>
               <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '2px', background: `linear-gradient(90deg, transparent, ${group.color}, transparent)` }} />
@@ -554,19 +554,19 @@ const TIMELINE = [
 function TimelineSection() {
   return (
     <section id="experience" style={{ background: '#0e0c1f', padding: '60px 6vw', borderTop: '1px solid rgba(139,92,246,0.08)' }}>
-      <div style={{ maxWidth: '1100px', margin: '0 auto' }}>
+      <div style={{ maxWidth: '1280px', margin: '0 auto' }}>
         <p className="reveal" style={{ fontSize: '9px', fontFamily: "var(--font-page-display), sans-serif", color: '#7c3aed', letterSpacing: '0.22em', marginBottom: '6px' }}>03 — Experience</p>
         <h2 className="reveal" style={{ fontFamily: "var(--font-page-orbitron), sans-serif", fontSize: 'clamp(26px, 3vw, 40px)', fontWeight: 700, letterSpacing: '0.01em', color: '#f0eeff', marginBottom: '48px' }}>
           My{' '}<span style={{ background: 'linear-gradient(135deg, #a78bfa, #22d3ee)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>Journey</span>
         </h2>
-        <div style={{ position: 'relative', paddingLeft: '32px' }}>
+        <div className="timeline-track" style={{ position: 'relative', paddingLeft: '32px' }}>
           {/* vertical line */}
           <div style={{ position: 'absolute', left: '7px', top: '8px', bottom: '8px', width: '2px', background: 'linear-gradient(to bottom, #7c3aed, #22d3ee)', borderRadius: '2px', opacity: 0.3 }} />
           {TIMELINE.map((item, i) => (
             <div key={i} className="reveal" style={{ position: 'relative', marginBottom: '32px' }}>
               {/* dot */}
               <div style={{ position: 'absolute', left: '-29px', top: '6px', width: '14px', height: '14px', borderRadius: '50%', background: item.color, boxShadow: `0 0 12px ${item.color}88`, border: '2px solid #0b0a1a', display: 'flex', alignItems: 'center', justifyContent: 'center', fontSize: '7px' }} />
-              <div style={{ background: '#08071a', border: `1px solid ${item.color}22`, borderRadius: '14px', padding: '20px 22px', position: 'relative', overflow: 'hidden' }}>
+              <div className="timeline-card" style={{ background: '#08071a', border: `1px solid ${item.color}22`, borderRadius: '14px', padding: '20px 22px', position: 'relative', overflow: 'hidden' }}>
                 <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '2px', background: `linear-gradient(90deg, ${item.color}, transparent)` }} />
                 <div style={{ display: 'flex', alignItems: 'flex-start', justifyContent: 'space-between', flexWrap: 'wrap', gap: '8px', marginBottom: '8px' }}>
                   <div>
@@ -575,7 +575,7 @@ function TimelineSection() {
                   </div>
                   <span style={{ fontSize: '9px', fontFamily: "var(--font-page-display), sans-serif", color: '#4c3d7a', letterSpacing: '0.08em', background: 'rgba(139,92,246,0.1)', border: '1px solid rgba(139,92,246,0.2)', borderRadius: '4px', padding: '3px 8px', whiteSpace: 'nowrap' }}>{item.period}</span>
                 </div>
-                <p style={{ fontSize: '11px', fontFamily: "'Barlow', sans-serif", color: '#5a4e80', lineHeight: 1.8, margin: 0 }}>{item.desc}</p>
+                <p className="timeline-desc" style={{ fontSize: '11px', fontFamily: "'Barlow', sans-serif", color: '#5a4e80', lineHeight: 1.8, margin: 0 }}>{item.desc}</p>
               </div>
             </div>
           ))}
@@ -669,46 +669,83 @@ function StickyProjectsShowcase() {
   }, []);
 
   return (
-    <div ref={sectionRef} style={{ height: `${PROJECTS.length * 100}vh`, position: 'relative' }}>
-      <div style={{ position: 'sticky', top: 0, height: '100vh', display: 'flex', overflow: 'hidden' }}>
-        <div style={{ width: '38%', flexShrink: 0, display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: '0 0 0 6vw', position: 'relative', zIndex: 2 }}>
-          <p style={{ fontSize: '9px', fontFamily: "var(--font-page-display), sans-serif", color: '#7c3aed', letterSpacing: '0.22em', marginBottom: '12px' }}>04 — Selected Work</p>
-          <h2 style={{ fontFamily: "var(--font-page-orbitron), sans-serif", fontSize: 'clamp(30px, 3.5vw, 46px)', fontWeight: 700, letterSpacing: '0.01em', color: '#f0eeff', lineHeight: 1, marginBottom: '32px' }}>
-            Projects{' '}
-            <span style={{ background: 'linear-gradient(135deg, #a78bfa, #7c3aed)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>I&apos;ve Built</span>
-          </h2>
-          <div style={{ display: 'flex', flexDirection: 'column', gap: '0' }}>
+    <>
+      {/* Desktop: sticky scroll-driven showcase (unchanged) */}
+      <div ref={sectionRef} className="sticky-projects-wrapper" style={{ height: `${PROJECTS.length * 100}vh`, position: 'relative' }}>
+        <div className="sticky-projects-inner" style={{ position: 'sticky', top: 0, height: '100vh', display: 'flex', overflow: 'hidden' }}>
+          <div className="sticky-projects-sidebar" style={{ width: '38%', flexShrink: 0, display: 'flex', flexDirection: 'column', justifyContent: 'center', padding: '0 0 0 6vw', position: 'relative', zIndex: 2 }}>
+            <p style={{ fontSize: '9px', fontFamily: "var(--font-page-display), sans-serif", color: '#7c3aed', letterSpacing: '0.22em', marginBottom: '12px' }}>04 — Selected Work</p>
+            <h2 style={{ fontFamily: "var(--font-page-orbitron), sans-serif", fontSize: 'clamp(30px, 3.5vw, 46px)', fontWeight: 700, letterSpacing: '0.01em', color: '#f0eeff', lineHeight: 1, marginBottom: '32px' }}>
+              Projects{' '}
+              <span style={{ background: 'linear-gradient(135deg, #a78bfa, #7c3aed)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>I&apos;ve Built</span>
+            </h2>
+            <div style={{ display: 'flex', flexDirection: 'column', gap: '0' }}>
+              {PROJECTS.map((p, i) => (
+                <button key={p.num} onClick={() => {
+                  if (!sectionRef.current) return;
+                  const sectionTop = sectionRef.current.offsetTop;
+                  const targetScroll = sectionTop + (i / PROJECTS.length) * (sectionRef.current.offsetHeight - window.innerHeight) + 10;
+                  scrollToPage(targetScroll);
+                }} style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '14px 0', display: 'flex', alignItems: 'center', gap: '16px', borderBottom: '1px solid rgba(139,92,246,0.08)', textAlign: 'left', transition: 'all 0.3s ease' }}>
+                  <div style={{ width: activeIdx === i ? '28px' : '12px', height: '2px', background: activeIdx === i ? p.accentColor : 'rgba(139,92,246,0.2)', borderRadius: '2px', flexShrink: 0, transition: 'all 0.4s cubic-bezier(0.4,0,0.2,1)', boxShadow: activeIdx === i ? `0 0 8px ${p.accentColor}88` : 'none' }} />
+                  <div style={{ flex: 1 }}>
+                    <div style={{ fontFamily: "var(--font-page-display), sans-serif", fontSize: '13px', letterSpacing: '0.04em', color: activeIdx === i ? '#f0eeff' : '#3d3066', transition: 'color 0.3s ease', lineHeight: 1, marginBottom: '2px' }}>{p.title}</div>
+                    <div style={{ fontSize: '9px', fontFamily: "'Barlow', sans-serif", fontWeight: 600, letterSpacing: '0.03em', textTransform: 'uppercase', color: activeIdx === i ? p.accentColor : '#2a2050', transition: 'color 0.3s ease' }}>{p.role}</div>
+                  </div>
+                  <span style={{ fontFamily: "var(--font-page-display), sans-serif", fontSize: '9px', color: activeIdx === i ? p.accentColor : '#2a2050', letterSpacing: '0.03em', transition: 'color 0.3s ease', flexShrink: 0 }}>{p.num}</span>
+                </button>
+              ))}
+            </div>
+            <div style={{ marginTop: '28px', display: 'flex', alignItems: 'center', gap: '10px' }}>
+              <div style={{ flex: 1, height: '2px', background: 'rgba(139,92,246,0.1)', borderRadius: '2px', overflow: 'hidden' }}>
+                <div style={{ height: '100%', width: `${((activeIdx + 1) / PROJECTS.length) * 100}%`, background: `linear-gradient(90deg, #7c3aed, ${PROJECTS[activeIdx].accentColor})`, borderRadius: '2px', transition: 'width 0.4s cubic-bezier(0.4,0,0.2,1)', boxShadow: `0 0 8px ${PROJECTS[activeIdx].accentColor}66` }} />
+              </div>
+              <span style={{ fontFamily: "var(--font-page-display), sans-serif", fontSize: '9px', color: '#3d3066', letterSpacing: '0.03em', flexShrink: 0 }}>{activeIdx + 1} / {PROJECTS.length}</span>
+            </div>
+          </div>
+          <div className="sticky-projects-cardarea" style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '40px 6vw 40px 4vw', position: 'relative' }}>
+            <div style={{ position: 'absolute', inset: 0, background: `radial-gradient(ellipse at 50% 50%, ${PROJECTS[activeIdx].accentColor}12 0%, transparent 65%)`, transition: 'background 0.6s ease', pointerEvents: 'none' }} />
             {PROJECTS.map((p, i) => (
-              <button key={p.num} onClick={() => {
-                if (!sectionRef.current) return;
-                const sectionTop = sectionRef.current.offsetTop;
-                const targetScroll = sectionTop + (i / PROJECTS.length) * (sectionRef.current.offsetHeight - window.innerHeight) + 10;
-                scrollToPage(targetScroll);
-              }} style={{ background: 'none', border: 'none', cursor: 'pointer', padding: '14px 0', display: 'flex', alignItems: 'center', gap: '16px', borderBottom: '1px solid rgba(139,92,246,0.08)', textAlign: 'left', transition: 'all 0.3s ease' }}>
-                <div style={{ width: activeIdx === i ? '28px' : '12px', height: '2px', background: activeIdx === i ? p.accentColor : 'rgba(139,92,246,0.2)', borderRadius: '2px', flexShrink: 0, transition: 'all 0.4s cubic-bezier(0.4,0,0.2,1)', boxShadow: activeIdx === i ? `0 0 8px ${p.accentColor}88` : 'none' }} />
-                <div style={{ flex: 1 }}>
-                  <div style={{ fontFamily: "var(--font-page-display), sans-serif", fontSize: '13px', letterSpacing: '0.04em', color: activeIdx === i ? '#f0eeff' : '#3d3066', transition: 'color 0.3s ease', lineHeight: 1, marginBottom: '2px' }}>{p.title}</div>
-                  <div style={{ fontSize: '9px', fontFamily: "'Barlow', sans-serif", fontWeight: 600, letterSpacing: '0.03em', textTransform: 'uppercase', color: activeIdx === i ? p.accentColor : '#2a2050', transition: 'color 0.3s ease' }}>{p.role}</div>
-                </div>
-                <span style={{ fontFamily: "var(--font-page-display), sans-serif", fontSize: '9px', color: activeIdx === i ? p.accentColor : '#2a2050', letterSpacing: '0.03em', transition: 'color 0.3s ease', flexShrink: 0 }}>{p.num}</span>
-              </button>
+              <StickyProjectCard key={p.num} project={p} isActive={activeIdx === i} index={i} />
             ))}
           </div>
-          <div style={{ marginTop: '28px', display: 'flex', alignItems: 'center', gap: '10px' }}>
-            <div style={{ flex: 1, height: '2px', background: 'rgba(139,92,246,0.1)', borderRadius: '2px', overflow: 'hidden' }}>
-              <div style={{ height: '100%', width: `${((activeIdx + 1) / PROJECTS.length) * 100}%`, background: `linear-gradient(90deg, #7c3aed, ${PROJECTS[activeIdx].accentColor})`, borderRadius: '2px', transition: 'width 0.4s cubic-bezier(0.4,0,0.2,1)', boxShadow: `0 0 8px ${PROJECTS[activeIdx].accentColor}66` }} />
-            </div>
-            <span style={{ fontFamily: "var(--font-page-display), sans-serif", fontSize: '9px', color: '#3d3066', letterSpacing: '0.03em', flexShrink: 0 }}>{activeIdx + 1} / {PROJECTS.length}</span>
-          </div>
         </div>
-        <div style={{ flex: 1, display: 'flex', alignItems: 'center', justifyContent: 'center', padding: '40px 6vw 40px 4vw', position: 'relative' }}>
-          <div style={{ position: 'absolute', inset: 0, background: `radial-gradient(ellipse at 50% 50%, ${PROJECTS[activeIdx].accentColor}12 0%, transparent 65%)`, transition: 'background 0.6s ease', pointerEvents: 'none' }} />
+      </div>
+
+      {/* Mobile: simple stacked project list, no sticky pinning */}
+      <div className="mobile-projects-list">
+        <p style={{ fontSize: '9px', fontFamily: "var(--font-page-display), sans-serif", color: '#7c3aed', letterSpacing: '0.22em', marginBottom: '10px' }}>04 — Selected Work</p>
+        <h2 style={{ fontFamily: "var(--font-page-orbitron), sans-serif", fontSize: 'clamp(26px, 7vw, 34px)', fontWeight: 700, letterSpacing: '0.01em', color: '#f0eeff', lineHeight: 1.1, marginBottom: '28px' }}>
+          Projects{' '}
+          <span style={{ background: 'linear-gradient(135deg, #a78bfa, #7c3aed)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>I&apos;ve Built</span>
+        </h2>
+        <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
           {PROJECTS.map((p, i) => (
-            <StickyProjectCard key={p.num} project={p} isActive={activeIdx === i} index={i} />
+            <div key={p.num} className="mobile-project-card" style={{ borderRadius: '16px', overflow: 'hidden', background: '#0a0918', border: `1px solid ${p.accentColor}33`, boxShadow: `0 12px 32px rgba(0,0,0,0.4)` }}>
+              <div style={{ height: '2px', background: `linear-gradient(90deg, transparent, ${p.accentColor}, transparent)` }} />
+              <div style={{ position: 'relative', height: '190px', background: PROJECT_FALLBACK_GRADIENTS[i], overflow: 'hidden' }}>
+                {p.img && (<img src={p.img} alt={p.title} style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center top' }} />)}
+                <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: '55%', background: 'linear-gradient(to top, #0a0918 0%, transparent 100%)' }} />
+                <div style={{ position: 'absolute', top: '12px', left: '12px', background: `${p.accentColor}22`, border: `1px solid ${p.accentColor}55`, borderRadius: '4px', padding: '3px 10px', backdropFilter: 'blur(8px)' }}>
+                  <span style={{ fontFamily: "var(--font-page-display), sans-serif", fontSize: '11px', letterSpacing: '0.1em', color: p.accentColor }}>{p.role}</span>
+                </div>
+              </div>
+              <div style={{ padding: '18px 18px 20px', display: 'flex', flexDirection: 'column', gap: '12px' }}>
+                <h3 style={{ fontFamily: "var(--font-page-display), sans-serif", fontSize: '21px', letterSpacing: '0.02em', color: '#f0eeff', margin: 0 }}>{p.title}</h3>
+                <p style={{ fontSize: '13px', fontFamily: "'Barlow', sans-serif", color: '#8b7ec8', lineHeight: 1.7, margin: 0 }}>{p.fullDesc}</p>
+                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
+                  {p.tags.map(t => (<span key={t} style={{ fontSize: '10px', fontFamily: "'Barlow', sans-serif", fontWeight: 700, padding: '4px 9px', borderRadius: '4px', letterSpacing: '0.06em', textTransform: 'uppercase', color: p.accentColor, border: `1px solid ${p.accentColor}33`, background: `${p.accentColor}0d` }}>{t}</span>))}
+                </div>
+                <div style={{ display: 'flex', gap: '10px', marginTop: '4px' }}>
+                  <a href={p.liveUrl} style={{ flex: 1, display: 'inline-flex', alignItems: 'center', justifyContent: 'center', padding: '12px 0', minHeight: '44px', borderRadius: '10px', fontFamily: "var(--font-page-display), sans-serif", fontSize: '13px', letterSpacing: '0.04em', textDecoration: 'none', background: `linear-gradient(135deg, ${p.accentColor}cc, ${p.accentColor}88)`, color: '#fff', boxShadow: `0 0 16px ${p.accentColor}44` }} target="_blank" rel="noreferrer">Live Demo</a>
+                  <a href={p.repoUrl} style={{ flex: 1, display: 'inline-flex', alignItems: 'center', justifyContent: 'center', padding: '12px 0', minHeight: '44px', borderRadius: '10px', fontFamily: "var(--font-page-display), sans-serif", fontSize: '13px', letterSpacing: '0.04em', textDecoration: 'none', background: 'rgba(11,10,26,0.9)', color: '#a78bfa', border: '1px solid rgba(139,92,246,0.25)' }} target="_blank" rel="noreferrer">View Code</a>
+                </div>
+              </div>
+            </div>
           ))}
         </div>
       </div>
-    </div>
+    </>
   );
 }
 
@@ -845,7 +882,7 @@ function WhyHireMe() {
         </div>
         <p style={{ fontSize: '11px', fontFamily: "'Barlow', sans-serif", color: '#4c3d7a', lineHeight: 1.75, maxWidth: '420px' }}>Not just a list of languages. Here&apos;s what I actually bring to the table.</p>
       </div>
-      <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
+      <div className="why-hire-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '10px' }}>
         {WHY_HIRE.map((item, i) => {
           const isHov = hovered === i;
           return (
@@ -872,12 +909,12 @@ function WhyHireMe() {
 function ResumeDownloadSection() {
   return (
     <section id="resume" style={{ background: '#0e0c1f', padding: '60px 6vw', borderTop: '1px solid rgba(139,92,246,0.08)' }}>
-      <div style={{ maxWidth: '1100px', margin: '0 auto' }}>
+      <div style={{ maxWidth: '1280px', margin: '0 auto' }}>
         <p className="reveal" style={{ fontSize: '9px', fontFamily: "var(--font-page-display), sans-serif", color: '#7c3aed', letterSpacing: '0.22em', marginBottom: '6px' }}>05 — Resume</p>
         <h2 className="reveal" style={{ fontFamily: "var(--font-page-orbitron), sans-serif", fontSize: 'clamp(26px, 3vw, 40px)', fontWeight: 700, letterSpacing: '0.01em', color: '#f0eeff', marginBottom: '40px' }}>
           My{' '}<span style={{ background: 'linear-gradient(135deg, #a78bfa, #7c3aed)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>Credentials</span>
         </h2>
-        <div className="reveal" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '24px', alignItems: 'stretch' }}>
+        <div className="reveal resume-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '24px', alignItems: 'stretch' }}>
           <div style={{ background: '#08071a', border: '1px solid rgba(139,92,246,0.14)', borderRadius: '16px', padding: '28px 28px 24px', position: 'relative', overflow: 'hidden' }}>
             <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '2px', background: 'linear-gradient(90deg, #7c3aed, #a78bfa)' }} />
             <div style={{ display: 'flex', alignItems: 'center', gap: '12px', marginBottom: '20px' }}>
@@ -1037,13 +1074,13 @@ function HireMeSection() {
         <div style={{ position: 'absolute', width: '400px', height: '400px', top: '-10%', right: '5%', background: 'radial-gradient(ellipse at center, rgba(167,139,250,0.08) 0%, transparent 70%)', borderRadius: '50%', animation: 'orbFloat1 16s ease-in-out infinite' }} />
         <div style={{ position: 'absolute', width: '300px', height: '300px', bottom: '-5%', left: '8%', background: 'radial-gradient(ellipse at center, rgba(34,211,238,0.07) 0%, transparent 70%)', borderRadius: '50%', animation: 'orbFloat3 12s ease-in-out infinite' }} />
       </div>
-      <div style={{ maxWidth: '1100px', margin: '0 auto', position: 'relative', zIndex: 2 }}>
+      <div style={{ maxWidth: '1280px', margin: '0 auto', position: 'relative', zIndex: 2 }}>
         <p className="reveal" style={{ fontSize: '9px', fontFamily: "var(--font-page-display), sans-serif", color: '#7c3aed', letterSpacing: '0.22em', marginBottom: '6px' }}>06 — Why Me &amp; Hire</p>
         <h2 className="reveal" style={{ fontFamily: "var(--font-page-orbitron), sans-serif", fontSize: 'clamp(27px, 3.2vw, 42px)', fontWeight: 700, letterSpacing: '0.01em', color: '#f0eeff', marginBottom: '10px' }}>
           Work With{' '}<span style={{ background: 'linear-gradient(135deg, #a78bfa, #22d3ee)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>Me</span>
         </h2>
         <p className="reveal" style={{ fontSize: '11px', fontFamily: "'Barlow', sans-serif", color: '#5a4e80', maxWidth: '480px', lineHeight: 1.8, marginBottom: '48px' }}>Here&apos;s what I bring — and how you can get in touch. Fill in the form and I&apos;ll get back within 24 hours.</p>
-        <div className="reveal" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '48px', alignItems: 'start' }}>
+        <div className="reveal hire-grid" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '48px', alignItems: 'start' }}>
           <WhyHireMe />
           <div style={{ background: 'rgba(8,7,26,0.85)', border: '1px solid rgba(139,92,246,0.18)', borderRadius: '20px', padding: '36px 32px', position: 'relative', overflow: 'hidden', backdropFilter: 'blur(12px)' }}>
             <div style={{ position: 'absolute', top: 0, left: 0, right: 0, height: '2px', background: 'linear-gradient(90deg, #7c3aed, #a78bfa, #22d3ee, #7c3aed)', backgroundSize: '200% 100%', animation: 'shimmerBorder 3s linear infinite' }} />
@@ -1063,7 +1100,7 @@ function HireMeSection() {
                   <p style={{ fontSize: '9px', fontFamily: "'Barlow', sans-serif", color: '#4c3d7a', lineHeight: 1.7 }}>Available for internships, freelance projects, and entry-level roles. Let&apos;s build something great.</p>
                 </div>
                 <div style={{ display: 'flex', flexDirection: 'column', gap: '14px' }}>
-                  <div style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
+                  <div className="hire-name-email-row" style={{ display: 'grid', gridTemplateColumns: '1fr 1fr', gap: '12px' }}>
                     <div className="hire-field-wrap"><label className="hire-label">Your Name</label><input type="text" placeholder="e.g. Maria Santos" value={form.name} onChange={e => setForm(f => ({ ...f, name: e.target.value }))} className="hire-input" /></div>
                     <div className="hire-field-wrap"><label className="hire-label">Email</label><input type="email" placeholder="you@company.com" value={form.email} onChange={e => setForm(f => ({ ...f, email: e.target.value }))} className="hire-input" /></div>
                   </div>
@@ -1105,6 +1142,7 @@ function HireMeSection() {
 /* ─────────────────────────────── HOME ───────────────────────────────────── */
 export default function Home() {
   const [portfolioReady, setPortfolioReady] = useState(false);
+  const [mobileNavOpen, setMobileNavOpen] = useState(false);
   const typed = useTypewriter();
 
   useEffect(() => {
@@ -1134,6 +1172,8 @@ export default function Home() {
     return () => window.removeEventListener('scroll', handleScroll);
   }, [portfolioReady]);
 
+  const navItems = ['About', 'Skills', 'Experience', 'Projects', 'Resume', 'Hire', 'Contact'];
+
   return (
     <>
       {!portfolioReady && <LoadingScreen onComplete={() => setPortfolioReady(true)} />}
@@ -1148,12 +1188,35 @@ export default function Home() {
               <img src="/logo.jpg" alt="Logo" style={{ width: '32px', height: '32px', borderRadius: '50%', objectFit: 'cover', border: '1px solid rgba(139,92,246,0.4)' }} />
               <span style={{ fontFamily: "var(--font-page-display), sans-serif", fontSize: '11px', letterSpacing: '0.04em', color: '#f0eeff' }}>James A. Agbo</span>
             </div>
-            <div style={{ display: 'flex', alignItems: 'center', gap: '2rem' }}>
-              {['About', 'Skills', 'Experience', 'Projects', 'Resume', 'Hire', 'Contact'].map(item => (
+            <div className="nav-links-desktop" style={{ display: 'flex', alignItems: 'center', gap: '2rem' }}>
+              {navItems.map(item => (
                 <a key={item} href={`#${item.toLowerCase()}`} className="nav-link" style={{ fontFamily: "var(--font-page-orbitron), sans-serif", fontSize: '11px', fontWeight: 600, letterSpacing: '0.04em', color: '#a78bfa', textDecoration: 'none', position: 'relative', paddingBottom: '4px' }}>{item}</a>
               ))}
             </div>
+            <button
+              type="button"
+              className={`nav-burger${mobileNavOpen ? ' nav-burger--open' : ''}`}
+              aria-label={mobileNavOpen ? 'Close menu' : 'Open menu'}
+              aria-expanded={mobileNavOpen}
+              onClick={() => setMobileNavOpen(v => !v)}
+            >
+              <span /><span /><span />
+            </button>
           </nav>
+
+          <div className={`mobile-nav-panel${mobileNavOpen ? ' mobile-nav-panel--open' : ''}`}>
+            {navItems.map((item, i) => (
+              <a
+                key={item}
+                href={`#${item.toLowerCase()}`}
+                className="mobile-nav-link"
+                style={{ transitionDelay: mobileNavOpen ? `${i * 45}ms` : '0ms' }}
+                onClick={() => setMobileNavOpen(false)}
+              >
+                {item}
+              </a>
+            ))}
+          </div>
 
           <div style={{ position: 'absolute', inset: 0, pointerEvents: 'none', zIndex: 0 }}>
             <div className="hero-bg-orb orb-1" />
@@ -1162,13 +1225,13 @@ export default function Home() {
             <div className="hero-bg-orb orb-4" />
           </div>
 
-          <div style={{ maxWidth: '1300px', width: '100%', margin: '0 auto', display: 'grid', gridTemplateColumns: '1fr 1fr', alignItems: 'flex-start', position: 'relative', zIndex: 2 }}>
+          <div style={{ maxWidth: '1440px', width: '100%', margin: '0 auto', display: 'grid', gridTemplateColumns: '1fr 1fr', alignItems: 'flex-start', position: 'relative', zIndex: 2 }}>
             <div className="hero-left" style={{ display: 'flex', flexDirection: 'column', gap: '18px', paddingRight: '4rem', paddingTop: '100px' }}>
               <div className="hero-badge" style={{ display: 'inline-flex', alignItems: 'center', gap: '8px', width: 'fit-content' }}>
                 <div style={{ width: '6px', height: '6px', borderRadius: '50%', background: '#a78bfa', boxShadow: '0 0 8px #a78bfa' }} />
                 <span style={{ fontSize: '9px', fontFamily: "var(--font-page-display), sans-serif", color: '#a78bfa', letterSpacing: '0.12em' }}>Portfolio · 2026</span>
               </div>
-              <h1 className="hero-heading" style={{ fontFamily: "var(--font-page-orbitron), sans-serif", fontSize: 'clamp(34px, 4.2vw, 54px)', fontWeight: 700, lineHeight: 1.08, letterSpacing: '0', color: '#f0eeff' }}>
+              <h1 className="hero-heading" style={{ fontFamily: "var(--font-page-orbitron), sans-serif", fontSize: 'clamp(34px, 3.6vw, 60px)', fontWeight: 700, lineHeight: 1.08, letterSpacing: '0', color: '#f0eeff' }}>
                 Building{' '}<span style={{ background: 'linear-gradient(135deg, #a78bfa, #7c3aed)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>Complete</span>
                 <br />Solutions From<br />
                 <span style={{ background: 'linear-gradient(135deg, #a78bfa, #7c3aed)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text', display: 'inline-block', minWidth: '4px' }}>
@@ -1191,8 +1254,8 @@ export default function Home() {
                 ))}
               </div>
             </div>
-            <div style={{ display: 'flex', flexDirection: 'column', height: '100vh' }}>
-              <div style={{ flex: 1, position: 'relative', marginTop: '40px' }}>
+            <div className="hero-spline-col" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
+              <div className="hero-spline-wrap" style={{ position: 'relative', width: '100%', maxWidth: '560px', aspectRatio: '3 / 4', maxHeight: '640px', margin: '40px auto 0' }}>
                 <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse at center, rgba(109,40,217,0.2) 0%, transparent 65%)', pointerEvents: 'none', zIndex: 1 }} />
                 <DotParticles />
                 <AIGlitchOverlay />
@@ -1212,10 +1275,10 @@ export default function Home() {
 
         {/* ── ABOUT ME ── */}
         <section id="about" style={{ background: '#0b0a1a', padding: '60px 6vw', borderTop: '1px solid rgba(139,92,246,0.08)' }}>
-          <div style={{ maxWidth: '1100px', margin: '0 auto' }}>
+          <div style={{ maxWidth: '1280px', margin: '0 auto' }}>
             <p className="reveal" style={{ fontSize: '9px', fontFamily: "var(--font-page-display), sans-serif", color: '#7c3aed', letterSpacing: '0.22em', marginBottom: '6px' }}>01 — About Me</p>
-            <div style={{ display: 'grid', gridTemplateColumns: '260px 1fr 220px', gap: '48px', alignItems: 'start' }}>
-              <div className="reveal reveal--left" style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
+            <div className="about-grid" style={{ display: 'grid', gridTemplateColumns: '260px 1fr 220px', gap: '48px', alignItems: 'start' }}>
+              <div className="reveal reveal--left about-photo-col" style={{ display: 'flex', flexDirection: 'column', gap: '12px' }}>
                 <GlitchPhotoCard />
                 <div style={{ display: 'flex', gap: '8px', position: 'relative', zIndex: 20 }}>
                   {[
@@ -1232,11 +1295,11 @@ export default function Home() {
                 </div>
               </div>
 
-              <div className="reveal reveal--up" style={{ paddingTop: '4px' }}>
+              <div className="reveal reveal--up about-text-col" style={{ paddingTop: '4px' }}>
                 <h2 style={{ fontFamily: "var(--font-page-display), sans-serif", fontSize: 'clamp(27px, 3.2vw, 42px)', fontWeight: 400, letterSpacing: '0.01em', color: '#f0eeff', lineHeight: 1, marginBottom: '8px' }}>
                   James{' '}<span style={{ background: 'linear-gradient(135deg, #a78bfa, #7c3aed)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>Agbo</span>
                 </h2>
-                <div style={{ display: 'flex', alignItems: 'center', gap: '14px', marginBottom: '32px' }}>
+                <div style={{ display: 'flex', alignItems: 'center', gap: '14px', marginBottom: '32px', flexWrap: 'wrap' }}>
                   <span style={{ fontSize: '9px', fontFamily: "'Barlow', sans-serif", fontWeight: 700, color: '#7c5cbf', letterSpacing: '0.12em', textTransform: 'uppercase' }}>IT Student · Developer</span>
                   <span style={{ width: '1px', height: '12px', background: 'rgba(139,92,246,0.2)' }} />
                   <span style={{ display: 'flex', alignItems: 'center', gap: '6px', fontSize: '10px', fontFamily: "'Barlow', sans-serif", fontWeight: 600, color: '#22d3ee', letterSpacing: '0.04em' }}>
@@ -1244,15 +1307,15 @@ export default function Home() {
                     Open to opportunities
                   </span>
                 </div>
-                <p style={{ fontSize: '11px', fontFamily: "'Barlow', sans-serif", fontWeight: 400, color: '#7a6ca8', lineHeight: 1.9, marginBottom: '16px', maxWidth: '520px' }}>
+                <p className="about-body-text" style={{ fontSize: '11px', fontFamily: "'Barlow', sans-serif", fontWeight: 400, color: '#7a6ca8', lineHeight: 1.9, marginBottom: '16px', maxWidth: '520px' }}>
                   Based in Montalban, Rizal, I&apos;m finishing my BS in Information Technology at Colegio de Montalban. I build complete web applications — from polished user interfaces to reliable server infrastructure — using modern tools across the full stack.
                 </p>
-                <p style={{ fontSize: '11px', fontFamily: "'Barlow', sans-serif", fontWeight: 400, color: '#5a4e80', lineHeight: 1.9, maxWidth: '520px', marginBottom: '28px' }}>
+                <p className="about-body-text" style={{ fontSize: '11px', fontFamily: "'Barlow', sans-serif", fontWeight: 400, color: '#5a4e80', lineHeight: 1.9, maxWidth: '520px', marginBottom: '28px' }}>
                   Recently completed a 4-month internship at Elevate Solutions Experts where I worked on Python and Vue.js web apps deployed on AWS. I care about clean code, good architecture, and shipping things that actually work.
                 </p>
                 <CurrentlyBuilding />
                 <div style={{ height: '1px', background: 'rgba(139,92,246,0.1)', margin: '28px 0' }} />
-                <div style={{ display: 'flex', gap: '40px' }}>
+                <div className="about-meta-row" style={{ display: 'flex', gap: '40px' }}>
                   {[
                     { label: 'Location', val: 'Montalban, Rizal', icon: <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><path d="M21 10c0 7-9 13-9 13s-9-6-9-13a9 9 0 0118 0z"/><circle cx="12" cy="10" r="3"/></svg> },
                     { label: 'School', val: 'Colegio de Montalban', icon: <svg width="13" height="13" viewBox="0 0 24 24" fill="none" stroke="currentColor" strokeWidth="2" strokeLinecap="round" strokeLinejoin="round"><rect x="2" y="7" width="20" height="14" rx="2"/><path d="M16 7V5a2 2 0 00-2-2h-4a2 2 0 00-2 2v2"/></svg> },
@@ -1266,7 +1329,9 @@ export default function Home() {
                 </div>
               </div>
 
-              <LiveTerminal />
+              <div className="about-terminal-col">
+                <LiveTerminal />
+              </div>
             </div>
           </div>
         </section>
@@ -1369,6 +1434,11 @@ export default function Home() {
         .nav-link:hover::after { width:100%; }
         .nav-link:hover { color:#c4b5fd !important; }
 
+        /* ════ MOBILE NAV BURGER (hidden on desktop) ════ */
+        .nav-burger { display:none; }
+        .mobile-nav-panel { display:none; }
+        .mobile-projects-list { display: none; }
+
         /* ════ AI CYBER PILLS ════ */
         .ai-cyber-pill { position:absolute; pointer-events:none; user-select:none; display:flex; align-items:center; gap:7px; padding:5px 11px 5px 8px; clip-path:polygon(0 0,90% 0,100% 20%,100% 100%,10% 100%,0 80%); background:rgba(11,10,26,0.72); border:1px solid var(--pill-border); backdrop-filter:blur(6px); overflow:hidden; white-space:nowrap; box-shadow:0 0 12px var(--pill-glow),inset 0 0 8px var(--pill-glow); }
         .ai-cyber-pill__scanlines { position:absolute; inset:0; background:repeating-linear-gradient(to bottom,transparent 0px,transparent 2px,rgba(0,0,0,0.22) 2px,rgba(0,0,0,0.22) 4px); pointer-events:none; z-index:1; animation:cyberScanMove 3s linear infinite; }
@@ -1453,9 +1523,94 @@ export default function Home() {
           .hero-left { padding-right:0 !important; padding-top:40px !important; }
         }
         @media (max-width: 720px) {
-          nav > div:last-child { display:none !important; }
+          .nav-links-desktop { display:none !important; }
           .hero-stats { gap:1rem !important; }
           #contact .reveal { overflow-wrap:anywhere; }
+        }
+
+        /* ═══════════════════════════════════════════════════════════════
+           MOBILE-ONLY REDESIGN (≤768px) — desktop layout above is untouched
+           ═══════════════════════════════════════════════════════════════ */
+        @media (max-width: 768px) {
+          /* Disable custom cursor tracking on touch screens */
+          html, body { cursor: auto !important; }
+          .cursor-dot, .cursor-ring { display: none !important; }
+
+          /* ---- Hamburger nav ---- */
+          .nav-burger {
+            display: flex !important; flex-direction: column; justify-content: center; align-items: center;
+            gap: 5px; width: 40px; height: 40px; border-radius: 8px; border: 1px solid rgba(167,139,250,0.3);
+            background: rgba(11,10,26,0.6); cursor: pointer; z-index: 20; flex-shrink: 0;
+          }
+          .nav-burger span { width: 18px; height: 2px; background: #c4b5fd; border-radius: 2px; transition: transform 0.25s ease, opacity 0.2s ease; }
+          .nav-burger--open span:nth-child(1) { transform: translateY(7px) rotate(45deg); }
+          .nav-burger--open span:nth-child(2) { opacity: 0; }
+          .nav-burger--open span:nth-child(3) { transform: translateY(-7px) rotate(-45deg); }
+          .nav-links-desktop { display: none !important; }
+
+          .mobile-nav-panel {
+            display: flex !important; flex-direction: column; position: fixed; top: 0; right: 0;
+            width: min(78vw, 300px); height: 100vh; background: rgba(9,8,22,0.97); backdrop-filter: blur(16px);
+            border-left: 1px solid rgba(139,92,246,0.18); z-index: 15; padding: 100px 28px 40px;
+            transform: translateX(100%); transition: transform 0.35s cubic-bezier(0.4,0,0.2,1); gap: 4px;
+          }
+          .mobile-nav-panel--open { transform: translateX(0); box-shadow: -20px 0 60px rgba(0,0,0,0.5); }
+          .mobile-nav-link {
+            font-family: var(--font-page-orbitron), sans-serif; font-size: 15px; font-weight: 600; letter-spacing: 0.04em;
+            color: #c4b5fd; text-decoration: none; padding: 14px 4px; min-height: 44px; display: flex; align-items: center;
+            border-bottom: 1px solid rgba(139,92,246,0.1); opacity: 0; transform: translateX(16px);
+            transition: opacity 0.3s ease, transform 0.3s ease;
+          }
+          .mobile-nav-panel--open .mobile-nav-link { opacity: 1; transform: translateX(0); }
+
+          /* ---- Hero ---- */
+          section:first-of-type { padding-left: 5vw !important; padding-right: 5vw !important; }
+          .hero-heading { font-size: clamp(30px, 8.5vw, 40px) !important; }
+          .hero-desc { font-size: 14px !important; max-width: 100% !important; }
+          .hero-btns .hero-btn { flex: 1; min-width: 130px; min-height: 46px; text-align: center; }
+          .hero-stats { justify-content: space-between !important; width: 100%; }
+          .hero-spline-col { height: 46vh !important; }
+          .hero-spline-wrap { margin-top: 20px !important; aspect-ratio: auto !important; max-height: none !important; height: 100% !important; max-width: 100% !important; }
+
+          /* ---- About section: stack to one column ---- */
+          .about-grid { grid-template-columns: 1fr !important; gap: 28px !important; }
+          .about-photo-col { max-width: 260px; margin: 0 auto; }
+          .about-text-col { padding-top: 0 !important; }
+          .about-body-text { font-size: 14px !important; max-width: 100% !important; }
+          .about-meta-row { flex-wrap: wrap !important; gap: 20px !important; row-gap: 16px !important; }
+          .about-terminal-col { width: 100%; }
+
+          /* ---- Skills: stack cards to one column, roomier text ---- */
+          .skills-grid { grid-template-columns: 1fr !important; gap: 16px !important; }
+
+          /* ---- Timeline: tighten indent, larger body text ---- */
+          .timeline-track { padding-left: 24px !important; }
+          .timeline-card { padding: 16px 16px !important; }
+          .timeline-desc { font-size: 13px !important; }
+
+          /* ---- Projects: hide desktop sticky pin, show simple mobile list ---- */
+          .sticky-projects-wrapper { display: none !important; }
+          .mobile-projects-list { display: block !important; padding: 48px 6vw; }
+
+          /* ---- Resume section: stack to one column ---- */
+          .resume-grid { grid-template-columns: 1fr !important; gap: 20px !important; }
+
+          /* ---- Hire section: stack Why-Hire-Me + form; stack the 2-up cards ---- */
+          .hire-grid { grid-template-columns: 1fr !important; gap: 32px !important; }
+          .why-hire-grid { grid-template-columns: 1fr !important; gap: 12px !important; }
+          .hire-name-email-row { grid-template-columns: 1fr !important; gap: 12px !important; }
+          .hire-input { font-size: 16px !important; padding: 12px 14px !important; min-height: 44px; }
+          .hire-textarea { min-height: 120px; }
+
+          /* ---- Touch target + readability pass ---- */
+          .social-btn { min-height: 44px; }
+          .nav-link { min-height: 44px; display: inline-flex !important; align-items: center; }
+        }
+
+        @media (max-width: 460px) {
+          .hero-stats { gap: 0.6rem !important; }
+          .hero-btns .hero-btn { min-width: 100%; }
+          .about-photo-col { max-width: 220px; }
         }
       `}</style>
     </>
