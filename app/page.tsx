@@ -1311,7 +1311,7 @@ export default function Home() {
                 <AIGlitchOverlay />
                 <SplineErrorBoundary fallback={<SplineFallback />}>
                   <div style={{ position: 'absolute', inset: 0, overflow: 'hidden' }}>
-                    <Spline scene="https://prod.spline.design/GQHPfuRVLvBfGYh8/scene.splinecode" style={{ width: '135%', height: '100%', transform: 'translateX(14%)' }} />
+                    <Spline scene="https://prod.spline.design/GQHPfuRVLvBfGYh8/scene.splinecode" style={{ width: '115%', height: '100%', transform: 'translateX(0%)' }} />
                   </div>
                 </SplineErrorBoundary>
                 <div style={{ position: 'absolute', bottom: '20px', right: 0, width: '30%', height: '36px', background: '#0b0a1a', zIndex: 10 }} />
