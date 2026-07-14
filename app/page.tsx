@@ -712,40 +712,90 @@ function StickyProjectsShowcase() {
         </div>
       </div>
 
-      {/* Mobile: simple stacked project list, no sticky pinning */}
-      <div className="mobile-projects-list">
-        <p style={{ fontSize: '9px', fontFamily: "var(--font-page-display), sans-serif", color: '#7c3aed', letterSpacing: '0.22em', marginBottom: '10px' }}>04 — Selected Work</p>
-        <h2 style={{ fontFamily: "var(--font-page-orbitron), sans-serif", fontSize: 'clamp(26px, 7vw, 34px)', fontWeight: 700, letterSpacing: '0.01em', color: '#f0eeff', lineHeight: 1.1, marginBottom: '28px' }}>
+      {/* Mobile: horizontal swipeable project carousel */}
+      <MobileProjectsCarousel />
+    </>
+  );
+}
+
+/* ─────────────────────── MOBILE PROJECTS CAROUSEL ───────────────────────── */
+function MobileProjectsCarousel() {
+  const trackRef = useRef<HTMLDivElement>(null);
+  const [activeIdx, setActiveIdx] = useState(0);
+
+  const handleScroll = useCallback(() => {
+    const track = trackRef.current;
+    if (!track) return;
+    const cardWidth = track.scrollWidth / PROJECTS.length;
+    const idx = Math.round(track.scrollLeft / cardWidth);
+    setActiveIdx(Math.max(0, Math.min(PROJECTS.length - 1, idx)));
+  }, []);
+
+  const goTo = useCallback((i: number) => {
+    const track = trackRef.current;
+    if (!track) return;
+    const cardWidth = track.scrollWidth / PROJECTS.length;
+    track.scrollTo({ left: cardWidth * i, behavior: 'smooth' });
+  }, []);
+
+  return (
+    <div className="mobile-projects-list">
+      <p style={{ fontSize: '9px', fontFamily: "var(--font-page-display), sans-serif", color: '#7c3aed', letterSpacing: '0.22em', marginBottom: '10px' }}>04 — Selected Work</p>
+      <div style={{ display: 'flex', alignItems: 'flex-end', justifyContent: 'space-between', gap: '10px', marginBottom: '18px' }}>
+        <h2 style={{ fontFamily: "var(--font-page-orbitron), sans-serif", fontSize: 'clamp(26px, 7vw, 34px)', fontWeight: 700, letterSpacing: '0.01em', color: '#f0eeff', lineHeight: 1.1, margin: 0 }}>
           Projects{' '}
           <span style={{ background: 'linear-gradient(135deg, #a78bfa, #7c3aed)', WebkitBackgroundClip: 'text', WebkitTextFillColor: 'transparent', backgroundClip: 'text' }}>I&apos;ve Built</span>
         </h2>
-        <div style={{ display: 'flex', flexDirection: 'column', gap: '20px' }}>
-          {PROJECTS.map((p, i) => (
-            <div key={p.num} className="mobile-project-card" style={{ borderRadius: '16px', overflow: 'hidden', background: '#0a0918', border: `1px solid ${p.accentColor}33`, boxShadow: `0 12px 32px rgba(0,0,0,0.4)` }}>
-              <div style={{ height: '2px', background: `linear-gradient(90deg, transparent, ${p.accentColor}, transparent)` }} />
-              <div style={{ position: 'relative', height: '190px', background: PROJECT_FALLBACK_GRADIENTS[i], overflow: 'hidden' }}>
-                {p.img && (<img src={p.img} alt={p.title} style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center top' }} />)}
-                <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: '55%', background: 'linear-gradient(to top, #0a0918 0%, transparent 100%)' }} />
-                <div style={{ position: 'absolute', top: '12px', left: '12px', background: `${p.accentColor}22`, border: `1px solid ${p.accentColor}55`, borderRadius: '4px', padding: '3px 10px', backdropFilter: 'blur(8px)' }}>
-                  <span style={{ fontFamily: "var(--font-page-display), sans-serif", fontSize: '11px', letterSpacing: '0.1em', color: p.accentColor }}>{p.role}</span>
-                </div>
+        <span style={{ fontFamily: "var(--font-page-display), sans-serif", fontSize: '11px', color: '#3d3066', letterSpacing: '0.03em', flexShrink: 0, paddingBottom: '4px' }}>{activeIdx + 1} / {PROJECTS.length}</span>
+      </div>
+
+      <div ref={trackRef} className="mobile-projects-track" onScroll={handleScroll}>
+        {PROJECTS.map((p, i) => (
+          <div key={p.num} className="mobile-project-card mobile-project-card--swipe" style={{ borderRadius: '16px', overflow: 'hidden', background: '#0a0918', border: `1px solid ${p.accentColor}33`, boxShadow: `0 12px 32px rgba(0,0,0,0.4)` }}>
+            <div style={{ height: '2px', background: `linear-gradient(90deg, transparent, ${p.accentColor}, transparent)` }} />
+            <div style={{ position: 'relative', height: '190px', background: PROJECT_FALLBACK_GRADIENTS[i], overflow: 'hidden' }}>
+              {p.img && (<img src={p.img} alt={p.title} style={{ position: 'absolute', inset: 0, width: '100%', height: '100%', objectFit: 'cover', objectPosition: 'center top' }} />)}
+              <div style={{ position: 'absolute', bottom: 0, left: 0, right: 0, height: '55%', background: 'linear-gradient(to top, #0a0918 0%, transparent 100%)' }} />
+              <div style={{ position: 'absolute', top: '12px', left: '12px', background: `${p.accentColor}22`, border: `1px solid ${p.accentColor}55`, borderRadius: '4px', padding: '3px 10px', backdropFilter: 'blur(8px)' }}>
+                <span style={{ fontFamily: "var(--font-page-display), sans-serif", fontSize: '11px', letterSpacing: '0.1em', color: p.accentColor }}>{p.role}</span>
               </div>
-              <div style={{ padding: '18px 18px 20px', display: 'flex', flexDirection: 'column', gap: '12px' }}>
-                <h3 style={{ fontFamily: "var(--font-page-display), sans-serif", fontSize: '21px', letterSpacing: '0.02em', color: '#f0eeff', margin: 0 }}>{p.title}</h3>
-                <p style={{ fontSize: '13px', fontFamily: "'Barlow', sans-serif", color: '#8b7ec8', lineHeight: 1.7, margin: 0 }}>{p.fullDesc}</p>
-                <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
-                  {p.tags.map(t => (<span key={t} style={{ fontSize: '10px', fontFamily: "'Barlow', sans-serif", fontWeight: 700, padding: '4px 9px', borderRadius: '4px', letterSpacing: '0.06em', textTransform: 'uppercase', color: p.accentColor, border: `1px solid ${p.accentColor}33`, background: `${p.accentColor}0d` }}>{t}</span>))}
-                </div>
-                <div style={{ display: 'flex', gap: '10px', marginTop: '4px' }}>
-                  <a href={p.liveUrl} style={{ flex: 1, display: 'inline-flex', alignItems: 'center', justifyContent: 'center', padding: '12px 0', minHeight: '44px', borderRadius: '10px', fontFamily: "var(--font-page-display), sans-serif", fontSize: '13px', letterSpacing: '0.04em', textDecoration: 'none', background: `linear-gradient(135deg, ${p.accentColor}cc, ${p.accentColor}88)`, color: '#fff', boxShadow: `0 0 16px ${p.accentColor}44` }} target="_blank" rel="noreferrer">Live Demo</a>
-                  <a href={p.repoUrl} style={{ flex: 1, display: 'inline-flex', alignItems: 'center', justifyContent: 'center', padding: '12px 0', minHeight: '44px', borderRadius: '10px', fontFamily: "var(--font-page-display), sans-serif", fontSize: '13px', letterSpacing: '0.04em', textDecoration: 'none', background: 'rgba(11,10,26,0.9)', color: '#a78bfa', border: '1px solid rgba(139,92,246,0.25)' }} target="_blank" rel="noreferrer">View Code</a>
-                </div>
+              <div style={{ position: 'absolute', top: '12px', right: '12px', background: 'rgba(11,10,26,0.75)', border: `1px solid ${p.accentColor}44`, borderRadius: '4px', padding: '3px 9px', backdropFilter: 'blur(8px)' }}>
+                <span style={{ fontFamily: "var(--font-page-display), sans-serif", fontSize: '10px', letterSpacing: '0.08em', color: '#6d5e9c' }}>{p.num}</span>
               </div>
             </div>
-          ))}
-        </div>
+            <div style={{ padding: '18px 18px 20px', display: 'flex', flexDirection: 'column', gap: '12px' }}>
+              <h3 style={{ fontFamily: "var(--font-page-display), sans-serif", fontSize: '21px', letterSpacing: '0.02em', color: '#f0eeff', margin: 0 }}>{p.title}</h3>
+              <p style={{ fontSize: '13px', fontFamily: "'Barlow', sans-serif", color: '#8b7ec8', lineHeight: 1.7, margin: 0 }}>{p.fullDesc}</p>
+              <div style={{ display: 'flex', flexWrap: 'wrap', gap: '6px' }}>
+                {p.tags.map(t => (<span key={t} style={{ fontSize: '10px', fontFamily: "'Barlow', sans-serif", fontWeight: 700, padding: '4px 9px', borderRadius: '4px', letterSpacing: '0.06em', textTransform: 'uppercase', color: p.accentColor, border: `1px solid ${p.accentColor}33`, background: `${p.accentColor}0d` }}>{t}</span>))}
+              </div>
+              <div style={{ display: 'flex', gap: '10px', marginTop: '4px' }}>
+                <a href={p.liveUrl} style={{ flex: 1, display: 'inline-flex', alignItems: 'center', justifyContent: 'center', padding: '12px 0', minHeight: '44px', borderRadius: '10px', fontFamily: "var(--font-page-display), sans-serif", fontSize: '13px', letterSpacing: '0.04em', textDecoration: 'none', background: `linear-gradient(135deg, ${p.accentColor}cc, ${p.accentColor}88)`, color: '#fff', boxShadow: `0 0 16px ${p.accentColor}44` }} target="_blank" rel="noreferrer">Live Demo</a>
+                <a href={p.repoUrl} style={{ flex: 1, display: 'inline-flex', alignItems: 'center', justifyContent: 'center', padding: '12px 0', minHeight: '44px', borderRadius: '10px', fontFamily: "var(--font-page-display), sans-serif", fontSize: '13px', letterSpacing: '0.04em', textDecoration: 'none', background: 'rgba(11,10,26,0.9)', color: '#a78bfa', border: '1px solid rgba(139,92,246,0.25)' }} target="_blank" rel="noreferrer">View Code</a>
+              </div>
+            </div>
+          </div>
+        ))}
       </div>
-    </>
+
+      {/* dot indicators + swipe hint */}
+      <div style={{ display: 'flex', alignItems: 'center', justifyContent: 'center', gap: '6px', marginTop: '16px' }}>
+        {PROJECTS.map((p, i) => (
+          <button
+            key={p.num}
+            onClick={() => goTo(i)}
+            aria-label={`Go to ${p.title}`}
+            style={{
+              width: activeIdx === i ? '20px' : '6px', height: '6px', borderRadius: '4px', border: 'none', padding: 0,
+              background: activeIdx === i ? p.accentColor : 'rgba(139,92,246,0.25)',
+              boxShadow: activeIdx === i ? `0 0 8px ${p.accentColor}88` : 'none',
+              transition: 'all 0.3s cubic-bezier(0.4,0,0.2,1)', cursor: 'pointer',
+            }}
+          />
+        ))}
+      </div>
+      <p style={{ textAlign: 'center', marginTop: '10px', fontSize: '9px', fontFamily: "'Barlow', sans-serif", fontWeight: 600, color: '#3d3066', letterSpacing: '0.14em', textTransform: 'uppercase' }}>← Swipe to explore →</p>
+    </div>
   );
 }
 
@@ -1255,12 +1305,14 @@ export default function Home() {
               </div>
             </div>
             <div className="hero-spline-col" style={{ display: 'flex', flexDirection: 'column', justifyContent: 'center' }}>
-              <div className="hero-spline-wrap" style={{ position: 'relative', width: '100%', maxWidth: '560px', aspectRatio: '3 / 4', maxHeight: '640px', margin: '40px auto 0' }}>
+              <div className="hero-spline-wrap" style={{ position: 'relative', width: '100%', maxWidth: '560px', aspectRatio: '3 / 4', maxHeight: '640px', margin: '40px 0 0 auto', overflow: 'hidden', borderRadius: '18px' }}>
                 <div style={{ position: 'absolute', inset: 0, background: 'radial-gradient(ellipse at center, rgba(109,40,217,0.2) 0%, transparent 65%)', pointerEvents: 'none', zIndex: 1 }} />
                 <DotParticles />
                 <AIGlitchOverlay />
                 <SplineErrorBoundary fallback={<SplineFallback />}>
-                  <Spline scene="https://prod.spline.design/GQHPfuRVLvBfGYh8/scene.splinecode" style={{ width: '100%', height: '100%' }} />
+                  <div style={{ position: 'absolute', inset: 0, overflow: 'hidden' }}>
+                    <Spline scene="https://prod.spline.design/GQHPfuRVLvBfGYh8/scene.splinecode" style={{ width: '135%', height: '100%', transform: 'translateX(14%)' }} />
+                  </div>
                 </SplineErrorBoundary>
                 <div style={{ position: 'absolute', bottom: '20px', right: 0, width: '30%', height: '36px', background: '#0b0a1a', zIndex: 10 }} />
               </div>
@@ -1515,6 +1567,27 @@ export default function Home() {
         .hire-select { appearance:none; }
         .hire-textarea { resize:vertical; min-height:110px; }
 
+        /* ════ MOBILE PROJECTS CAROUSEL (horizontal swipe track) ════ */
+        .mobile-projects-track {
+          display: flex;
+          flex-direction: row;
+          gap: 16px;
+          overflow-x: auto;
+          overflow-y: hidden;
+          scroll-snap-type: x mandatory;
+          -webkit-overflow-scrolling: touch;
+          padding: 4px 6vw 12px 0;
+          margin: 0 -6vw 0 0;
+          scrollbar-width: none;
+        }
+        .mobile-projects-track::-webkit-scrollbar { display: none; }
+        .mobile-project-card--swipe {
+          flex: 0 0 85%;
+          scroll-snap-align: center;
+          min-width: 85%;
+        }
+        .mobile-project-card--swipe:first-child { margin-left: 6vw; }
+
         @media (max-width: 980px) {
           nav { position:fixed !important; background:rgba(11,10,26,0.78); backdrop-filter:blur(12px); }
           nav > div:last-child { gap:1rem !important; }
@@ -1569,8 +1642,9 @@ export default function Home() {
           .hero-desc { font-size: 14px !important; max-width: 100% !important; }
           .hero-btns .hero-btn { flex: 1; min-width: 130px; min-height: 46px; text-align: center; }
           .hero-stats { justify-content: space-between !important; width: 100%; }
-          .hero-spline-col { height: 46vh !important; }
-          .hero-spline-wrap { margin-top: 20px !important; aspect-ratio: auto !important; max-height: none !important; height: 100% !important; max-width: 100% !important; }
+
+          /* Hide the 3D Spline robot scene entirely on mobile — desktop keeps it */
+          .hero-spline-col { display: none !important; }
 
           /* ---- About section: stack to one column ---- */
           .about-grid { grid-template-columns: 1fr !important; gap: 28px !important; }
@@ -1588,9 +1662,9 @@ export default function Home() {
           .timeline-card { padding: 16px 16px !important; }
           .timeline-desc { font-size: 13px !important; }
 
-          /* ---- Projects: hide desktop sticky pin, show simple mobile list ---- */
+          /* ---- Projects: hide desktop sticky pin, show horizontal swipe carousel ---- */
           .sticky-projects-wrapper { display: none !important; }
-          .mobile-projects-list { display: block !important; padding: 48px 6vw; }
+          .mobile-projects-list { display: block !important; padding: 48px 0 48px 6vw; }
 
           /* ---- Resume section: stack to one column ---- */
           .resume-grid { grid-template-columns: 1fr !important; gap: 20px !important; }
@@ -1611,6 +1685,7 @@ export default function Home() {
           .hero-stats { gap: 0.6rem !important; }
           .hero-btns .hero-btn { min-width: 100%; }
           .about-photo-col { max-width: 220px; }
+          .mobile-project-card--swipe { flex-basis: 88%; min-width: 88%; }
         }
       `}</style>
     </>

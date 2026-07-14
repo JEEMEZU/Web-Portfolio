@@ -1,9 +1,11 @@
+import path from 'path';
 import type { NextConfig } from "next";
 
 const nextConfig: NextConfig = {
-  turbopack: {
-    root: process.cwd(),
-  },
+	turbopack: {
+		// Ensure Turbopack resolves the correct project root when multiple lockfiles exist
+		root: path.resolve(__dirname),
+	},
 };
 
 export default nextConfig;
